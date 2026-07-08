@@ -4,35 +4,26 @@ set -e
 
 KEY="/home/ec2-user/BLUEGREEN-KEY.pem"
 
-BLUE_IP="13.60.183.232"
-GREEN_IP="16.192.62.222"
+BLUE_IP="13.51.206.11"
+GREEN_IP="16.170.211.157"
 
-ACTIVE_FILE="/tmp/active_env"
+echo "=================================="
+echo "Deploying Version 2 to GREEN Server"
+echo "=================================="
 
-if [ ! -f $ACTIVE_FILE ]; then
-  echo "blue" > $ACTIVE_FILE
-fi
+ssh -i $KEY -o StrictHostKeyChecking=no ec2-user@$GREEN_IP "mkdir -p /tmp/app"
 
-ACTIVE_ENV=$(cat $ACTIVE_FILE)
+scp -i $KEY -o StrictHostKeyChecking=no -r version2/* ec2-user@$GREEN_IP:/tmp/app/
 
-if [ "$ACTIVE_ENV" == "blue" ]; then
-  TARGET_IP=$GREEN_IP
-  NEW_ENV="green"
-else
-  TARGET_IP=$BLUE_IP
-  NEW_ENV="blue"
-fi
+ssh -i $KEY -o StrictHostKeyChecking=no ec2-user@$GREEN_IP << EOF
 
-echo "Deploying to $NEW_ENV -> $TARGET_IP"
-
-scp -i $KEY -o StrictHostKeyChecking=no -r version2/* ec2-user@$TARGET_IP:/tmp/app/
-
-ssh -i $KEY -o StrictHostKeyChecking=no ec2-user@$TARGET_IP << 'EOF'
 sudo rm -rf /var/www/html/*
 sudo cp -r /tmp/app/* /var/www/html/
+sudo chown -R apache:apache /var/www/html
 sudo systemctl restart httpd
+
 EOF
 
-echo $NEW_ENV > $ACTIVE_FILE
-
-echo "Deployment completed: $NEW_ENV is now active"
+echo "=================================="
+echo "Deployment Completed Successfully"
+echo "=================================="
