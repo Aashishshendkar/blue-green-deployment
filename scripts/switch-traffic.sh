@@ -1,13 +1,19 @@
 #!/bin/bash
 
-ALB_ARN="BlueGreen-ALB"
-BLUE_TG="Blue-TG"
-GREEN_TG="Green-TG"
+set -e
 
-NEW_TG=$1
+LISTENER_ARN="arn:aws:elasticloadbalancing:eu-north-1:752988090634:listener/app/BlueGreen-ALB/566b7bfc898be69a/78b105d999c9cbdb"
+
+GREEN_TG="arn:aws:elasticloadbalancing:eu-north-1:752988090634:targetgroup/Green-TG/d322753230d15c78"
+
+echo "========================================"
+echo "Switching ALB Traffic To Green"
+echo "========================================"
 
 aws elbv2 modify-listener \
-  --listener-arn $ALB_ARN \
-  --default-actions Type=forward,TargetGroupArn=$NEW_TG
+--listener-arn $LISTENER_ARN \
+--default-actions Type=forward,TargetGroupArn=$GREEN_TG
 
-echo "Traffic switched to $NEW_TG"
+echo "========================================"
+echo "Traffic Successfully Switched"
+echo "========================================"

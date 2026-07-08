@@ -2,10 +2,12 @@
 
 URL=$1
 
-if curl -s --head $URL | grep "200" > /dev/null; then
-  echo "HEALTHY"
-  exit 0
+STATUS=$(curl -o /dev/null -s -w "%{http_code}" $URL)
+
+if [ "$STATUS" = "200" ]; then
+    echo "Application Healthy"
+    exit 0
 else
-  echo "UNHEALTHY"
-  exit 1
+    echo "Application Unhealthy"
+    exit 1
 fi
