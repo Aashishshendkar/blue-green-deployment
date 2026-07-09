@@ -2,7 +2,7 @@
 
 set -e
 
-KEY="/home/ec2-user/BLUEGREEN-KEY.pem"
+KEY="/var/lib/jenkins/BLUEGREEN-KEY.pem"
 
 BLUE_IP="13.51.206.11"
 
