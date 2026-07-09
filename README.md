@@ -1,6 +1,6 @@
-# 🚀 Production Ready Blue-Green Deployment using Jenkins and AWS Application Load Balancer
+#  Production Ready Blue-Green Deployment using Jenkins and AWS Application Load Balancer
 
-## 📌 Project Overview
+## Project Overview
 
 This project demonstrates a Production-Ready Blue-Green Deployment strategy using Jenkins CI/CD Pipeline and AWS Application Load Balancer.
 
