@@ -7,7 +7,6 @@ This project demonstrates a Production-Ready Blue-Green Deployment strategy usin
 The objective is to achieve Zero Downtime Deployment by deploying the latest application version to the Green environment, validating its health, and switching production traffic from Blue to Green only after successful verification.
 
 ---
-
 # Architecture
 
 GitHub Repository
